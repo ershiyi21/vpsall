@@ -1,6 +1,11 @@
 #!/bin/bash
 
+#定位到web-ui目录，docker版本目录为/app/emby/dashboard-ui
+cd /app/emby/dashboard-ui
+[[ ! -f index.html.cp ]] && cp index.html index.html.cp
+
 # 创建emby-crx目录并下载所需文件
+echo "开始安装crx-emby首页大屏海报展示..."
 rm -rf emby-crx
 mkdir -p emby-crx
 wget https://raw.githubusercontent.com/Nolovenodie/emby-crx/master/static/css/style.css -P emby-crx/
@@ -24,4 +29,12 @@ else
 
     # 将新内容写入index.html文件
     echo -e "$new_content" > index.html
+    
+    echo "crx-emby安装完成！"
 fi
+
+#安装网页版本调用第三方播放器插件
+rm -rf embyLaunchPotplayer.js
+wget https://raw.githubusercontent.com/bpking1/embyExternalUrl/master/embyWebAddExternalUrl/embyLaunchPotplayer.js
+sed -i '/<\/body>/i\<script type="text/javascript" src="./embyLaunchPotplayer.js"></script>' index.html
+echo "第三方播放器插件安装完成！"
