@@ -1,11 +1,12 @@
 #!/bin/bash
 
-apt update -y
-apt install wget curl -y
+apt-get update -y
+apt-get install wget -y
 
 #定位到web-ui目录，docker版本目录为/app/emby/dashboard-ui
 cd /app/emby/dashboard-ui
 [[ ! -f index.html.cp ]] && cp index.html index.html.cp
+[[ -f index.html.cp ]] && rm -rf index.html && cp index.html.cp index.html
 
 # 创建emby-crx目录并下载所需文件
 echo "开始安装crx-emby首页大屏海报展示..."
