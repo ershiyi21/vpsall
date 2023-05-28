@@ -38,3 +38,6 @@ rm -rf embyLaunchPotplayer.js
 wget https://raw.githubusercontent.com/bpking1/embyExternalUrl/master/embyWebAddExternalUrl/embyLaunchPotplayer.js
 sed -i '/<\/body>/i\<script type="text/javascript" src="./embyLaunchPotplayer.js"></script>' index.html
 echo "第三方播放器插件安装完成！"
+
+#安装高级搜索功能补丁
+
