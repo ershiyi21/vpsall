@@ -1,5 +1,8 @@
 #!/bin/bash
 
+apt update -y
+apt install wget curl -y
+
 #定位到web-ui目录，docker版本目录为/app/emby/dashboard-ui
 cd /app/emby/dashboard-ui
 [[ ! -f index.html.cp ]] && cp index.html index.html.cp
