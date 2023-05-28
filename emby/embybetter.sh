@@ -49,5 +49,5 @@ echo "第三方播放器插件安装完成！"
 # rm -rf Emby.Server.Implementations.dll
 # 关闭服务器
 # chmod +rwx /app/emby
-# wget -P /path/to/directory -O Emby.Server.Implementations.dll url
+# wget -P /app/emby -O Emby.Server.Implementations.dll url
 # 重启服务器
