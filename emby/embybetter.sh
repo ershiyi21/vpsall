@@ -43,7 +43,11 @@ wget https://raw.githubusercontent.com/bpking1/embyExternalUrl/master/embyWebAdd
 sed -i '/<\/body>/i\<script type="text/javascript" src="./embyLaunchPotplayer.js"></script>' index.html
 echo "第三方播放器插件安装完成！"
 
-#4.7.12.0安装高级搜索功能补丁,注意docker版本目录为/app/emby
-#cd /app/emby
-#[[ ! -f Emby.Server.Implementations.dll.cp ]] && cp Emby.Server.Implementations.dll Emby.Server.Implementations.dll.cp
-#chmod +rwx /app/emby
+#安装高级搜索功能补丁,注意docker版本目录为/app/emby
+# cd /app/emby
+# [[ ! -f Emby.Server.Implementations.dll.cp ]] && cp Emby.Server.Implementations.dll Emby.Server.Implementations.dll.cp
+# rm -rf Emby.Server.Implementations.dll
+# 关闭服务器
+# chmod +rwx /app/emby
+# wget -P /path/to/directory -O Emby.Server.Implementations.dll url
+# 重启服务器
