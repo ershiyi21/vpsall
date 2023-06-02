@@ -43,6 +43,25 @@ wget https://raw.githubusercontent.com/bpking1/embyExternalUrl/master/embyWebAdd
 sed -i '/<\/body>/i\<script type="text/javascript" src="./embyLaunchPotplayer.js"></script>' index.html
 echo "第三方播放器插件安装完成！"
 
+
+#emby 4.7.12.0 mod
+rm -rf /temp-dll
+mkdir /temp-dll
+mv /app/emby/Emby.Web.dll /temp-dll/Emby.Web.dll
+wget -P /app/emby/ https://act.jiawei.xin:10086/tmp/emby/4.7.12.0/linux_32_64/Emby.Web.dll
+
+mv /app/emby/MediaBrowser.Model.dll /temp-dll/MediaBrowser.Model.dll
+wget -P /app/emby/ https://act.jiawei.xin:10086/tmp/emby/4.7.12.0/linux_32_64/MediaBrowser.Model.dll
+
+mv /app/emby/dashboard-ui/modules/emby-apiclient/connectionmanager.js /temp-dll/connectionmanager.js
+wget -P /app/emby/dashboard-ui/modules/emby-apiclient/ https://act.jiawei.xin:10086/tmp/emby/4.7.12.0/linux_32_64/dashboard-ui/modules/emby-apiclient/connectionmanager.js
+
+mv /app/emby/dashboard-ui/embypremiere/embypremiere.js /temp-dll/embypremiere.js
+wget -P /app/emby/dashboard-ui/embypremiere/ https://act.jiawei.xin:10086/tmp/emby/4.7.12.0/linux_32_64/dashboard-ui/embypremiere/embypremiere.js
+
+mv /app/emby/Emby.Server.Implementations.dll /temp-dll/Emby.Server.Implementations.dll
+wget -P /app/emby/ https://act.jiawei.xin:10086/tmp/emby/4.7.12.0/linux_32_64/Emby.Server.Implementations.dll
+
 #安装高级搜索功能补丁,注意docker版本目录为/app/emby
 # cd /app/emby
 # [[ ! -f Emby.Server.Implementations.dll.cp ]] && cp Emby.Server.Implementations.dll Emby.Server.Implementations.dll.cp
