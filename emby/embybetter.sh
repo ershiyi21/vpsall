@@ -45,24 +45,29 @@ echo "第三方播放器插件安装完成！"
 
 
 #emby 4.7.12.0 mod
-echo "开始安装 4.7.12.0 embypremiere..."
-rm -rf /temp-dll
-mkdir /temp-dll
-mv /app/emby/Emby.Web.dll /temp-dll/Emby.Web.dll
-wget -P /app/emby/ https://raw.githubusercontent.com/ershiyi21/vpsall/main/emby/embypremiere/Emby.Web.dll
+read -p "是否开启emby 4.7.12.0 mod模式，服务端验证已经开启白名单，故默认否 (y/n)? " confirm
 
-mv /app/emby/MediaBrowser.Model.dll /temp-dll/MediaBrowser.Model.dll
-wget -P /app/emby/ https://raw.githubusercontent.com/ershiyi21/vpsall/main/emby/embypremiere/MediaBrowser.Model.dll
+# 如果确认信息为"y"或"Y"，则mod
+if [[ $confirm == [yY] ]]; then
+    echo "开始安装 4.7.12.0 embypremiere..."
+    rm -rf /temp-dll
+    mkdir /temp-dll
+    mv /app/emby/Emby.Web.dll /temp-dll/Emby.Web.dll
+    wget -P /app/emby/ https://raw.githubusercontent.com/ershiyi21/vpsall/main/emby/embypremiere/Emby.Web.dll
 
-mv /app/emby/dashboard-ui/modules/emby-apiclient/connectionmanager.js /temp-dll/connectionmanager.js
-wget -P /app/emby/dashboard-ui/modules/emby-apiclient/ https://raw.githubusercontent.com/ershiyi21/vpsall/main/emby/embypremiere/connectionmanager.js
+    mv /app/emby/MediaBrowser.Model.dll /temp-dll/MediaBrowser.Model.dll
+    wget -P /app/emby/ https://raw.githubusercontent.com/ershiyi21/vpsall/main/emby/embypremiere/MediaBrowser.Model.dll
 
-mv /app/emby/dashboard-ui/embypremiere/embypremiere.js /temp-dll/embypremiere.js
-wget -P /app/emby/dashboard-ui/embypremiere/ https://raw.githubusercontent.com/ershiyi21/vpsall/main/emby/embypremiere/embypremiere.js
+    mv /app/emby/dashboard-ui/modules/emby-apiclient/connectionmanager.js /temp-dll/connectionmanager.js
+    wget -P /app/emby/dashboard-ui/modules/emby-apiclient/ https://raw.githubusercontent.com/ershiyi21/vpsall/main/emby/embypremiere/connectionmanager.js
 
-mv /app/emby/Emby.Server.Implementations.dll /temp-dll/Emby.Server.Implementations.dll
-wget -P /app/emby/ https://raw.githubusercontent.com/ershiyi21/vpsall/main/emby/embypremiere/Emby.Server.Implementations.dll
-echo "4.7.12.0 embypremiere安装完成！"
+    mv /app/emby/dashboard-ui/embypremiere/embypremiere.js /temp-dll/embypremiere.js
+    wget -P /app/emby/dashboard-ui/embypremiere/ https://raw.githubusercontent.com/ershiyi21/vpsall/main/emby/embypremiere/embypremiere.js
+
+    mv /app/emby/Emby.Server.Implementations.dll /temp-dll/Emby.Server.Implementations.dll
+    wget -P /app/emby/ https://raw.githubusercontent.com/ershiyi21/vpsall/main/emby/embypremiere/Emby.Server.Implementations.dll
+    echo "4.7.12.0 embypremiere安装完成！"
+fi
 
 #安装高级搜索功能补丁,注意docker版本目录为/app/emby
 # cd /app/emby
