@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# 检查/app/emby/hh文件夹是否存在
+if [ ! -d "/app/emby/dashboard-ui" ]; then
+    echo "非docker版本，退出脚本"
+    exit 0
+fi
+
 apt-get update -y
 apt-get install wget -y
 
