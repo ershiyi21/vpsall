@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # 检查/app/emby/hh文件夹是否存在
-if [ -d "/app/emby/dashboard-ui" ]; then
+if [ -f "/app/emby/dashboard-ui/index.html" ]; then
     wbui_directory = '/app/emby/dashboard-ui'
  
-elif [ -d "/system/dashboard-ui" ]; then
+elif [ -f "/system/dashboard-ui/index.html" ]; then
     wbui_directory = '/system/dashboard-ui'
     
 else  
