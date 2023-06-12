@@ -1,16 +1,22 @@
 #!/bin/bash
 
 # 检查/app/emby/hh文件夹是否存在
-if [ ! -d "/app/emby/dashboard-ui" ]; then
-    echo "非docker版本，退出脚本"
+if [ -d "/app/emby/dashboard-ui" ]; then
+    wbui_directory = '/app/emby/dashboard-ui'
+ 
+elif [ -d "/system/dashboard-ui" ]; then
+    wbui_directory = '/system/dashboard-ui'
+    
+else  
+    echo "未适配，退出脚本."
     exit 0
 fi
 
 apt-get update -y
 apt-get install wget -y
 
-#定位到web-ui目录，docker版本目录为/app/emby/dashboard-ui
-cd /app/emby/dashboard-ui
+#定位到web-ui目录，官方docker版本目录为/app/emby/dashboard-ui
+cd ${wbui_directory}
 [[ ! -f index.html.cp ]] && cp index.html index.html.cp
 [[ -f index.html.cp ]] && rm -rf index.html && cp index.html.cp index.html
 
