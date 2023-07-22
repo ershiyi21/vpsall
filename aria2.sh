@@ -7,7 +7,7 @@ mv aria2c /usr/local/bin
 rm -rf /opt/aria2/temp
 mkdir /opt/aria2/config && mkdir /opt/aria2/downloads && touch /opt/aria2/config/aria2.session
 
-wget 
+wget -P /opt/aria2/config https://raw.githubusercontent.com/ershiyi21/vpsall/main/file/aria2.conf
 
 mkdir -p /usr/lib/systemd/system
 echo "[Unit]
