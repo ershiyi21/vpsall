@@ -2,7 +2,7 @@
 
 # 指定下载目录和目标目录
 target_dir="/home/nastools/media/downloads/sync/aria2"
-
+[ ! -d ${target_dir} ] && mkdir -p ${target_dir}
 # 获取文件名
 echo "[$(date "+%Y-%m-%d %H:%M:%S")] $3" >> /opt/aria2/config/filepath_down.txt
 
