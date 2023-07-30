@@ -5,3 +5,7 @@
 ## aria2 安装
 `bash <(curl -L -s https://raw.githubusercontent.com/ershiyi21/vpsall/main/aria2.sh)`
 
+## ssh防暴力破解
+`bash <(curl -L -s https://raw.githubusercontent.com/ershiyi21/vpsall/main/sshblock.sh)`
+
+
