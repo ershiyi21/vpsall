@@ -144,7 +144,7 @@ services:
       TELEGRAM_LOCAL: Yes
       TELEGRAM_STAT: Yes
     volumes:
-      - telegram-bot-api-data:/var/lib/telegram-bot-api
+      - /home/tg-local-api/data:/var/lib/telegram-bot-api
     ports:
       - "$telegram_bot_api_port1:8081"
 EOF
@@ -159,7 +159,7 @@ EOF
   nginx:
     image: nginx:latest
     volumes:
-      - telegram-bot-api-data:/telegram-bot-api-data
+      - /home/tg-local-api/data:/telegram-bot-api-data
       - $NGINX_CONF:/etc/nginx/conf.d/default.conf
     ports:
       - "$nginx_port:8080"
@@ -175,17 +175,20 @@ EOF
 
 # 创建 nginx 配置文件
 create_nginx_config() {
-  cat << EOF > "$NGINX_CONF"
+  cat > "$NGINX_CONF" << EOF
 server {
     listen 8080;
 
-    server_name "$nginx_address";
+    server_name $nginx_address;
 
+EOF
+
+  cat >> "$NGINX_CONF" << "EOF"
     location / {
         rewrite ^.*telegram-bot-api(.*)$ /$1 last;
         root /telegram-bot-api-data/;  
         index index.html;
-        try_files \$uri \$uri/ =404;
+        try_files $uri $uri/ =404;
     }
 
     error_page 500 502 503 504 /50x.html;
