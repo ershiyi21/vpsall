@@ -102,7 +102,7 @@ prompt_user_input() {
   nginx_port=${nginx_port:-28080}
 
   read -p "请输入 Nginx 外部监听地址 (默认为 0.0.0.0): " nginx_address
-  nginx_port=${nginx_port:-0.0.0.0}
+  nginx_address=${nginx_address:-0.0.0.0}
 }
 
 # 检查输入的有效性
