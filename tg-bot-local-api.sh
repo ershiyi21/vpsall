@@ -261,9 +261,9 @@ handle_input() {
 
 # 主函数
 main() {
-  if [[ ！ -f ./tg-bot-local-api.sh ]] ;then
-    wget -O ~/tg-bot-local-api.sh https://raw.githubusercontent.com/ershiyi21/vpsall/main/tg-bot-local-api.sh 
-    sudo chmod +x ~/tg-bot-local-api.sh
+  if [[ ！ -f "~/tg-bot-local-api.sh" ]];then
+    wget -O "~/tg-bot-local-api.sh" https://raw.githubusercontent.com/ershiyi21/vpsall/main/tg-bot-local-api.sh 
+    sudo chmod +x "~/tg-bot-local-api.sh"
   fi
   
   while true; do
