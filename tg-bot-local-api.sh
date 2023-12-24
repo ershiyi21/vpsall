@@ -202,16 +202,16 @@ EOF
 install_containers() {
   if check_if_containers_installed; then
     check_docker_and_docker_compose
-    create_directory "/home/tg-local-api"
+    [[ ! -d /home/tg-local-api ]] && mkdir -p /home/tg-local-api
     create_directory "$DATA_DIR"
     create_telegram_bot_api_data_volume
-    create_nginx_config
     prompt_user_input
     
     while ! validate_input; do
       prompt_user_input
     done
-    
+
+    create_nginx_config
     create_and_start_containers
   fi
 }
