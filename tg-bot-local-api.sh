@@ -113,10 +113,12 @@ validate_input() {
     echo "Telegram Bot API 外部访问端口必须是一个有效的整数"
     return 1
   fi
-  
-  if ! [[ $telegram_bot_api_port2 =~ ^[0-9]+$ ]]; then
-    echo "Telegram Bot API 外部统计端口必须是一个有效的整数"
-    return 1
+
+  if [[ $map_telegram_bot_api_port2 =~ ^[Yy]$ ]]; then
+    if ! [[ $telegram_bot_api_port2 =~ ^[0-9]+$ ]]; then
+      echo "Telegram Bot API 外部统计端口必须是一个有效的整数"
+      return 1
+    fi
   fi
   
   if ! [[ $nginx_port =~ ^[0-9]+$ ]]; then
