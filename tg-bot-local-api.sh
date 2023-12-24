@@ -18,6 +18,57 @@ check_containers_installed() {
   echo $containers_installed
 }
 
+# 安装 Docker
+install_docker() {
+  if ! command -v docker &> /dev/null; then
+    echo "正在安装 Docker..."
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh
+    sudo usermod -aG docker $USER
+    sudo systemctl enable docker
+    sudo systemctl start docker
+    echo "Docker 安装完成"
+  else
+    echo "Docker 已安装"
+  fi
+}
+
+# 安装 Docker Compose
+install_docker_compose() {
+  if ! command -v docker-compose &> /dev/null; then
+    echo "正在安装 Docker Compose..."
+    sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    echo "Docker Compose 安装完成"
+  else
+    echo "Docker Compose 已安装"
+  fi
+}
+
+# 检查 Docker 和 Docker Compose 是否已安装
+check_docker_and_docker_compose() {
+  install_docker
+  install_docker_compose
+}
+
+# 检查是否已安装容器
+check_if_containers_installed() {
+  if [[ ! -f "$COMPOSE_FILE" ]]; then
+    echo "未找到 $COMPOSE_FILE 文件，开始安装容器..."
+    return 0
+  fi
+  
+  local containers_installed=$(check_containers_installed)
+  
+  if [[ $containers_installed -eq 2 ]]; then
+    echo "容器已安装"
+    return 1
+  else
+    echo "未找到完整的容器配置，开始安装容器..."
+    return 0
+  fi
+}
+
 # 创建目录
 create_directory() {
   if [[ ! -d "$1" ]]; then
@@ -118,34 +169,39 @@ EOF
 
 # 安装容器
 install_containers() {
-  local containers_installed=$(check_containers_installed)
-  
-  if [[ $containers_installed -eq 2 ]]; then
-    echo "容器已安装"
-    return
-  fi
-  
-  create_directory "/home/tg-local-api"
-  create_directory "$DATA_DIR"
-  create_telegram_bot_api_data_volume
-  prompt_user_input
-  
-  while ! validate_input; do
+  if check_if_containers_installed; then
+    check_docker_and_docker_compose
+    create_directory "/home/tg-local-api"
+    create_directory "$DATA_DIR"
+    create_telegram_bot_api_data_volume
     prompt_user_input
-  done
-  
-  create_and_start_containers
+    
+    while ! validate_input; do
+      prompt_user_input
+    done
+    
+    create_and_start_containers
+  fi
 }
 
 # 停止容器
 stop_containers() {
-  docker-compose -f "$COMPOSE_FILE" down
+  if [[ -f "$COMPOSE_FILE" ]]; then
+    docker-compose -f "$COMPOSE_FILE" down
+  else
+    echo "容器未安装"
+  fi
 }
 
 # 卸载容器
 uninstall_containers() {
-  docker-compose -f "$COMPOSE_FILE" down --volumes
-  docker volume rm telegram-bot-api-data
+  if [[ -f "$COMPOSE_FILE" ]]; then
+    docker-compose -f "$COMPOSE_FILE" down --volumes
+    docker volume rm telegram-bot-api-data
+    rm "$COMPOSE_FILE"
+  else
+    echo "容器未安装"
+  fi
 }
 
 # 脚本管理菜单
