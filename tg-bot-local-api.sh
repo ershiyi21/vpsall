@@ -2,6 +2,7 @@
 
 COMPOSE_FILE="/home/tg-local-api/docker-compose.yml"
 DATA_DIR="/home/tg-local-api/data"
+NGINX_CONF="/home/tg-local-api/nginx.conf"
 
 # 检测容器是否已安装
 check_containers_installed() {
@@ -154,7 +155,7 @@ EOF
     image: nginx:latest
     volumes:
       - telegram-bot-api-data:/telegram-bot-api-data
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - $NGINX_CONF:/etc/nginx/conf.d/default.conf
     ports:
       - "$nginx_port:8080"
     restart: unless-stopped
@@ -167,6 +168,31 @@ EOF
   docker-compose -f "$COMPOSE_FILE" up -d
 }
 
+# 创建 nginx 配置文件
+create_nginx_config() {
+  cat << EOF > "$NGINX_CONF"
+server {
+    listen 8080;
+
+    server_name localhost;
+
+    location / {
+        rewrite ^.*telegram-bot-api(.*)$ /$1 last;
+        root /telegram-bot-api-data/;  
+        index index.html;
+        try_files \$uri \$uri/ =404;
+    }
+
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+
+    # More configuration if necessary...
+}
+EOF
+}
+
 # 安装容器
 install_containers() {
   if check_if_containers_installed; then
@@ -174,6 +200,7 @@ install_containers() {
     create_directory "/home/tg-local-api"
     create_directory "$DATA_DIR"
     create_telegram_bot_api_data_volume
+    create_nginx_config
     prompt_user_input
     
     while ! validate_input; do
@@ -199,6 +226,7 @@ uninstall_containers() {
     docker-compose -f "$COMPOSE_FILE" down --volumes
     docker volume rm telegram-bot-api-data
     rm "$COMPOSE_FILE"
+    rm "$NGINX_CONF"
   else
     echo "容器未安装"
   fi
