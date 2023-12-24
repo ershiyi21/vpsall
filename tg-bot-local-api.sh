@@ -232,7 +232,7 @@ uninstall_containers() {
     docker volume rm telegram-bot-api-data
     rm "$COMPOSE_FILE"
     rm "$NGINX_CONF"
-    rm "$DATA_DIR"
+    rm -rf "$DATA_DIR"
   else
     echo "容器未安装"
   fi
