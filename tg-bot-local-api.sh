@@ -88,7 +88,7 @@ prompt_user_input() {
   read -p "请输入 Telegram API Hash: " telegram_api_hash
   
   read -p "请输入 Telegram Bot API 外部访问端口 (默认为 28081): " telegram_bot_api_port1
-  telegram_bot_api_port1=${telegram_bot_api_port1:-28082}
+  telegram_bot_api_port1=${telegram_bot_api_port1:-28081}
   
   read -p "是否映射 Telegram Bot API 外部统计端口 (默认为否)? [Y/n]: " map_telegram_bot_api_port2
   map_telegram_bot_api_port2=${map_telegram_bot_api_port2:-n}
@@ -100,6 +100,9 @@ prompt_user_input() {
   
   read -p "请输入 Nginx 外部访问端口 (默认为 28080): " nginx_port
   nginx_port=${nginx_port:-28080}
+
+  read -p "请输入 Nginx 外部监听地址 (默认为 0.0.0.0): " nginx_address
+  nginx_port=${nginx_port:-0.0.0.0}
 }
 
 # 检查输入的有效性
@@ -176,7 +179,7 @@ create_nginx_config() {
 server {
     listen 8080;
 
-    server_name localhost;
+    server_name "$nginx_address";
 
     location / {
         rewrite ^.*telegram-bot-api(.*)$ /$1 last;
@@ -213,22 +216,23 @@ install_containers() {
   fi
 }
 
-# 停止容器
-stop_containers() {
+# 重启容器
+restart_containers() {
   if [[ -f "$COMPOSE_FILE" ]]; then
-    docker-compose -f "$COMPOSE_FILE" down
+    docker-compose -f "$COMPOSE_FILE" restart
   else
     echo "容器未安装"
   fi
 }
 
-# 卸载容器
+# 删除容器与数据
 uninstall_containers() {
   if [[ -f "$COMPOSE_FILE" ]]; then
     docker-compose -f "$COMPOSE_FILE" down --volumes
     docker volume rm telegram-bot-api-data
     rm "$COMPOSE_FILE"
     rm "$NGINX_CONF"
+    rm "$DATA_DIR"
   else
     echo "容器未安装"
   fi
@@ -238,8 +242,8 @@ uninstall_containers() {
 show_menu() {
   echo "脚本管理菜单"
   echo "1. 安装容器"
-  echo "2. 停止容器"
-  echo "3. 卸载容器"
+  echo "2. 重启容器"
+  echo "3. 删除容器与引导卷"
   echo "4. 退出"
 }
 
@@ -248,7 +252,7 @@ handle_input() {
   read -p "请输入选项：" option
   case $option in
     1) install_containers ;;
-    2) stop_containers ;;
+    2) restart_containers ;;
     3) uninstall_containers ;;
     4) exit ;;
     *) echo "无效的选项" ;;
@@ -257,6 +261,11 @@ handle_input() {
 
 # 主函数
 main() {
+  if [[ ！ -f ./tg-bot-local-api.sh ]] ;then
+    wget -O ~/tg-bot-local-api.sh https://raw.githubusercontent.com/ershiyi21/vpsall/main/tg-bot-local-api.sh 
+    sudo chmod +x ~/tg-bot-local-api.sh
+  fi
+  
   while true; do
     show_menu
     handle_input
