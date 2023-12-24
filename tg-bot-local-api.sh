@@ -151,7 +151,7 @@ EOF
   fi
 
   cat << EOF >> "$COMPOSE_FILE"
-  restart: unless-stopped
+    restart: unless-stopped
 
   nginx:
     image: nginx:latest
