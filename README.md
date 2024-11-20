@@ -11,4 +11,8 @@
 ## tg bot api 本地部署脚本，并且使用nginx开启网页文件下载请求
 `bash <(curl -L -s https://raw.githubusercontent.com/ershiyi21/vpsall/main/tg-bot-local-api.sh)`
 
+## 将 base64 编码的文件名 解码重命名 为正常文件名
+file_base64_decode_rname.py 不支持子目录
+file_base64_decode_rname_deep.py 支持子目录
+重命名后文件二者都是统一放置在一级目录的./rname下，默认不处理./rname文件夹
 
