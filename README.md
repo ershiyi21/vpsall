@@ -21,8 +21,6 @@ file_base64_decode_rname_deep.py 支持子目录
 重命名后文件二者都是统一放置在一级目录的./rname下，默认不处理./rname文件夹
 
 ## 短剧多集合并为一集
-`bash <(curl -L -s https://raw.githubusercontent.com/ershiyi21/vpsall/main/merge_videos.py)`
-
 `wget https://raw.githubusercontent.com/ershiyi21/vpsall/main/merge_videos.py`
 
 执行后会要求输入短剧视频目录以及合并后存储目录
