@@ -1,5 +1,3 @@
-好的，为了使 `UNZIP_DIR` 和 `PROCESSED_DIR` 成为 `WATCH_DIR` 的子目录，并且解压后的一级文件目录为 ZIP 文件名，我们需要进行以下修改：
-
 1.  **修改 `UNZIP_DIR` 和 `PROCESSED_DIR` 的定义：** 将它们定义为 `WATCH_DIR` 的子目录。
 2.  **修改 `create_unzip_path` 函数：** 使其基于 ZIP 文件名创建解压目录。
 3.  **修改 `create_processed_path` 函数：** 使其基于 ZIP 文件名创建移动后的目录。
@@ -21,9 +19,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 # 需要监控的目录
 WATCH_DIR = "."
 # 解压到的目录
-UNZIP_DIR = os.path.join(WATCH_DIR, "unzip")
+UNZIP_DIR = os.path.join(WATCH_DIR, "解压后文件")
 # 已处理 ZIP 文件的目录
-PROCESSED_DIR = os.path.join(WATCH_DIR, "processed")
+PROCESSED_DIR = os.path.join(WATCH_DIR, "原有zip文件")
 # 尝试解压的密码列表
 PASSWORDS = ["aaaa", "bbbb"]
 
@@ -139,18 +137,6 @@ if __name__ == "__main__":
     observer.join()
 ```
 
-**主要修改：**
-
-1.  **`UNZIP_DIR` 和 `PROCESSED_DIR` 定义：**
-    *   现在它们被定义为 `WATCH_DIR` 的子目录，分别是 `unzip` 和 `processed`。
-2.  **`create_unzip_path(zip_path)` 函数：**
-    *   使用 `os.path.splitext(os.path.basename(zip_path))[0]` 获取 ZIP 文件名（不带扩展名）。
-    *   解压路径为 `UNZIP_DIR/zip文件名`。
-    *   解压时，`extract_zip` 函数直接使用此路径。
-3.  **`create_processed_path(zip_path)` 函数：**
-    *   使用 `os.path.splitext(os.path.basename(zip_path))[0]` 获取 ZIP 文件名（不带扩展名）。
-    *   移动后的路径为 `PROCESSED_DIR/zip文件名/zip文件名.zip`。
-
 **使用方法：**
 
 1.  **保存代码:** 将代码保存为 `.py` 文件，例如 `zip_watcher.py`。
@@ -173,5 +159,3 @@ if __name__ == "__main__":
 *   `UNZIP_DIR` 和 `PROCESSED_DIR` 现在是 `WATCH_DIR` 的子目录，结构更清晰。
 *   解压后的文件会放在以 ZIP 文件名命名的目录中，方便管理。
 *   移动后的 ZIP 文件也会放在以 ZIP 文件名命名的目录中，并保留原始文件名。
-
-通过这次修改，`UNZIP_DIR` 和 `PROCESSED_DIR` 成为 `WATCH_DIR` 的子目录，并且解压后的一级文件目录为 ZIP 文件名，更符合你的需求。
