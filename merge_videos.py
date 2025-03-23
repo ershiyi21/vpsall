@@ -50,11 +50,14 @@ def merge_videos(folder, output_folder):
         for i, file in enumerate(files, start=1):
             print(f"    处理文件 {i}/{len(files)}: {file}")
         command = [
-            "ffmpeg",
-            "-f", "concat",
-            "-safe", "0",
-            "-i", concat_file,
-            "-c", "copy",
+            "ffmpeg", 
+            "-y", 
+            "-hide_banner", 
+            "-vsync", "0", 
+            "-safe", "0", 
+            "-f", "concat", 
+            "-i", "fileList.txt", 
+            "-c", "copy", 
             output_file
         ]
 
