@@ -52,7 +52,7 @@ URL="https://github.com/hacdias/webdav/releases/latest/download/$FILE"
 
 cd /tmp
 echo "下载: $URL"
-curl -L -o webdav.tar.gz "$URL"
+wget -O webdav.tar.gz "$URL"
 
 # --------------------------
 # 4. 解压并安装
