@@ -28,13 +28,10 @@ fi
 ARCH=$(uname -m)
 case "$ARCH" in
     x86_64)
-        FILE="webdav-linux-amd64.tar.gz"
+        FILE="linux-amd64-webdav.tar.gz"
         ;;
     aarch64|arm64)
-        FILE="webdav-linux-arm64.tar.gz"
-        ;;
-    armv7l)
-        FILE="webdav-linux-arm.tar.gz"
+        FILE="linux-arm64-webdav.tar.gz"
         ;;
     *)
         echo "不支持的架构: $ARCH"
