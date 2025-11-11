@@ -91,6 +91,7 @@ auth: true
 tls: false
 cert: cert.pem
 key: key.pem
+permissions: CRUD
 
 scope: .
 modify: true
