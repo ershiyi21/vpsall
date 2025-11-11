@@ -98,7 +98,7 @@ rules: []
 users:
   - username: $WD_USER
     password: $WD_PASS
-    scope: $WD_DIR
+    directory: $WD_DIR
 EOF
 
 echo "配置文件已生成: /etc/webdav/config.yaml"
