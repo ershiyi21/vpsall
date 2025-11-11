@@ -57,7 +57,7 @@ curl -L -o webdav.tar.gz "$URL"
 # --------------------------
 # 4. 解压并安装
 # --------------------------
-tar -xf webdav.tar.gz
+tar -xvf webdav.tar.gz
 chmod +x webdav
 cp webdav /usr/bin/
 echo "WebDAV 已安装到 /usr/bin/webdav"
