@@ -25,4 +25,7 @@ file_base64_decode_rname_deep.py 支持子目录
 
 执行后会要求输入短剧视频目录以及合并后存储目录
 
+## wendav一键安装脚本
+`bash <(curl -L -s https://raw.githubusercontent.com/ershiyi21/vpsall/main/webdav_install.sh)`
+
 
